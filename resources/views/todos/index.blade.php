@@ -302,13 +302,11 @@
     }
   </style>
 </head>
-
 <body>
   <div class="container">
     <div class="card">
       <p class="title mb-15">Todo List</p>
       <div class="todo">
-
         @section('content')
         @if (count($errors) > 0)
         <ul>
@@ -332,64 +330,33 @@
               <th>更新</th>
               <th>削除</th>
             </tr>
-
-
-
-          <tr>
-            <td>
-              2021-05-15 02:04:53
-            </td>
-            <td>
-              <input type="text" class="input-update" value="{{old('content')}}" name="content">
-            </td>
-            <td>
-              <button class="button-update">更新</button>
-            </td>
-            @if ($errors->has('newTodo'))
-            <p class="alert alert-danger">{{ $errors->first('newTodo') }}</p>
-            @endif
-            <td>
-              <form action="/todo/create" method="post">
-                @csrf
-                <input type="hidden" name="_token" value="nJXCoZnXtALcVcZlbiorW0viq9oFYHvhpfKxKsU0"> <button class="button-delete">削除</button>
+            @foreach ($items as $item)
+            <tr>
+              <td>
+                {{$item->created_at}}
+              </td>
+              <form action="/todo/update" method="post">@csrf
+                <td>
+                  <input type="hidden" name="id" value="{{$item->id}}">
+                  <input type="text" class="input-update" value="{{$item->content}}" name="content">
+                </td>
+                <td>
+                  <button class="button-update">更新</button>
+                </td>
               </form>
-            </td>
-          </tr>
-
-
-
-          <tr>
-            <td>
-              2021-05-15 02:16:51
-            </td>
-            <form action="http://young-woodland-12937.herokuapp.com/todo/update?id=1024" method="post">@csrf</form>
-            <input type="hidden" name="_token" value="nJXCoZnXtALcVcZlbiorW0viq9oFYHvhpfKxKsU0">
-            <td>
-              <input type="text" class="input-update" value="sss---s" name="content">
-            </td>
-            <td>
-              <button class="button-update">更新</button>
-            </td>
-
-            <td>
-              <form action="http://young-woodland-12937.herokuapp.com/todo/delete?id=1024" method="post">
-                @csrf
-                <input type="hidden" name="_token" value="nJXCoZnXtALcVcZlbiorW0viq9oFYHvhpfKxKsU0"> <button class="button-delete">削除</button>
-              </form>
-            </td>
-          </tr>
-
-
-
-
+              <td>
+                <form action="/todo/delete" method="post">
+                  @csrf
+                  <input type="hidden" name="id" value="{{$item->id}}">
+                  <button class="button-delete">削除</button>
+                </form>
+              </td>
+            </tr>
+            @endforeach
           </tbody>
         </table>
       </div>
     </div>
   </div>
-
-
-
 </body>
-
 </html>
